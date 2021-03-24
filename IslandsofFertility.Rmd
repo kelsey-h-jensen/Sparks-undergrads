@@ -1,0 +1,272 @@
+---
+title: "Islands of Fertility"
+author: "Kelsey H Jensen"
+date: "10/6/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(dplyr)
+library(lme4)
+library(emmeans)
+# install.packages("effsize")
+library(effsize)
+
+```
+
+```{r, echo=FALSE}
+soil <- read.csv("20200615_WS_alldata_Almanza.csv")
+soil$ring <- as.factor(soil$ring)
+soil$depth <- as.factor(soil$depth)
+
+# first, subset the data for each cover type
+amdu <- filter(soil, plant == "INSP" | plant == "AMDU") %>%  droplevels()
+
+
+```
+
+```{r amdu, echo=FALSE}
+# The statistical model 
+# Change data= to correct plant type
+lmer.amdu <- lmer(mgCgsoil~(treatment+plant+depth)^3+(1|ring), data=amdu)
+
+# Checking for normality assumptions
+plot(predict(lmer.amdu), residuals(lmer.amdu)) 
+qqnorm(residuals(lmer.amdu)); qqline(residuals(lmer.amdu))
+hist(residuals(lmer.amdu)) 
+# amdu data look normal without transformations
+
+sum.1 <- summary(lmer.amdu)
+sum.1
+a1 <- anova(lmer.amdu) 
+a1
+summary(a1)
+
+# Find the p values for comparisons you are interested in
+estimates.amdu <- summary(emmeans(lmer.amdu, ~ treatment+plant+depth),  type="response")
+estimates.amdu
+
+paircomp.amdu <- summary(emmeans(lmer.amdu, pairwise~plant|treatment|depth)$contrasts)
+paircomp.amdu
+
+paircomp.amdu.trt <- summary(emmeans(lmer.amdu, pairwise~ treatment|plant|depth)$contrasts)
+View(paircomp.amdu.trt)
+
+
+# At what depth(s) is there an island of fertility effect? 20 cm
+# Does the island of fertility effect change with CO2 treatment? yes
+# If yes, what caused the change? A change in INSP or a change in AMDU carbon? change in AMDU 
+```
+
+```{r LATR, echo=FALSE}
+# The statistical model 
+# Change data= to correct plant type
+lmer.latr <- lmer(log(mgCgsoil)~(treatment+plant+depth)^3+(1|ring), data=latr)
+
+# Checking for normality assumptions
+plot(predict(lmer.amdu), residuals(lmer.amdu)) 
+qqnorm(residuals(lmer.amdu)); qqline(residuals(lmer.amdu))
+hist(residuals(lmer.amdu)) 
+# amdu data look normal without transformations
+
+sum.2 <- summary(lmer.latr)
+sum.2
+a2 <- anova(lmer.latr) 
+a2
+
+
+# Find the p values for comparisons you are interested in
+estimates.amdu <- summary(emmeans(lmer.amdu, ~ treatment+plant+depth),  type="response")
+estimates.amdu
+
+paircomp.amdu <- summary(emmeans(lmer.amdu, pairwise~plant|treatment|depth)$contrasts)
+paircomp.amdu
+
+paircomp.amdu.trt <- summary(emmeans(lmer.amdu, pairwise~ treatment|plant|depth)$contrasts)
+View(paircomp.amdu.trt)
+
+cohen.d()
+
+# At what depth(s) is there an island of fertility effect? 
+# Does the island of fertility effect change with CO2 treatment?
+# If yes, what caused the change? A change in INSP or a change in AMDU carbon?
+```
+
+```{r choens.d}
+
+latr.amb <- soil %>% 
+  filter(plant == "INSP" | plant == "LATR") %>% 
+  filter(depth == "0"| depth =="20") %>% 
+  droplevels() %>% 
+  filter(treatment  == "ambient") %>% 
+  droplevels()
+
+latr.elev <- soil %>% 
+  filter(depth== "0"|depth=="20") %>%
+  filter(plant == "INSP" | plant == "LATR") %>% 
+  droplevels() %>% 
+  filter(treatment  == "elevated") %>% 
+  droplevels()
+
+cohen.d(mgCgsoil ~ plant, data=latr.amb, hedges.correction=T) # -2.347922 (large)
+cohen.d(mgCgsoil ~ plant, data=latr.elev, hedges.correction=T) # -1.319091 (large)
+
+## LYAN
+lyan.amb <- soil %>% 
+  filter(plant == "INSP" | plant == "LYAN") %>% 
+  filter(depth== "0"|depth=="20") %>% 
+  droplevels() %>% 
+  filter(treatment  == "ambient") %>% 
+  droplevels()
+
+lyan.elev <- soil %>% 
+  filter(plant == "INSP" | plant == "LYAN") %>% 
+  filter(depth== "0"|depth=="20") %>% 
+  droplevels() %>% 
+  filter(treatment  == "elevated") %>% 
+  droplevels()
+
+# 0-40 
+cohen.d(mgCgsoil ~ plant, data=lyan.amb, hedges.correction=T) # -1.812547 (large)
+cohen.d(mgCgsoil ~ plant, data=lyan.elev, hedges.correction=T) # -1.006017 (large)
+
+# 40-60
+cohen.d(mgCgsoil ~ plant, data=lyan.amb, hedges.correction=T) # -0.3953237 (small)
+cohen.d(mgCgsoil ~ plant, data=lyan.elev, hedges.correction=T) # -0.9568734 (large)
+
+# 60-80
+cohen.d(mgCgsoil ~ plant, data=lyan.amb, hedges.correction=T) # -0.6229752 (medium)
+cohen.d(mgCgsoil ~ plant, data=lyan.elev, hedges.correction=T) # -0.2517935 (small)
+
+## AMDU
+amdu.amb <- soil %>% 
+  filter(depth=="20") %>% 
+  filter(plant == "INSP" | plant == "AMDU") %>% 
+  droplevels() %>% 
+  filter(treatment  == "ambient") %>% 
+  droplevels()
+
+amdu.elev <- soil %>% 
+  filter(depth=="20") %>% 
+  filter(plant == "INSP" | plant == "AMDU") %>% 
+  droplevels() %>% 
+  filter(treatment  == "elevated") %>% 
+  droplevels()
+
+cohen.d(mgCgsoil ~ plant, data=amdu.amb)
+cohen.d(mgCgsoil ~ plant, data=amdu.elev)
+
+
+## PLRI
+plri.amb <- soil %>%
+  filter(depth=="60") %>%
+  filter(plant == "INSP" | plant == "PLRI") %>% 
+  droplevels() %>% 
+  filter(treatment  == "ambient") %>% 
+  droplevels()
+
+plri.elev <- soil %>% 
+  filter(depth=="60") %>% 
+  filter(plant == "INSP" | plant == "PLRI") %>% 
+  droplevels() %>% 
+  filter(treatment  == "elevated") %>% 
+  droplevels()
+
+cohen.d(mgCgsoil ~ plant, data=plri.amb)
+cohen.d(mgCgsoil ~ plant, data=plri.elev)
+
+```
+
+```{r, C stocks}
+
+load("C_stock.RData")
+
+### LATR
+latr.amb <- C_stock %>% 
+  filter(plant == "INSP" | plant == "LATR") %>% 
+  droplevels() %>% 
+  filter(treatment  == "ambient") %>% 
+  droplevels()
+
+cohen.d(Cstock ~ plant, data=latr.amb, hedges.correction=T) # g estimate: -3.499144 (large)
+
+latr.elev <- C_stock %>% 
+  filter(plant == "INSP" | plant == "LATR") %>% 
+  droplevels() %>% 
+  filter(treatment  == "elevated") %>% 
+  droplevels()
+
+cohen.d(Cstock ~ plant, data=latr.elev, hedges.correction=T) #g estimate: -2.295679 (large)
+
+
+#### LYAN
+lyan.amb <- C_stock %>% 
+  filter(plant == "INSP" | plant == "LYAN") %>% 
+  droplevels() %>% 
+  filter(treatment  == "ambient") %>% 
+  droplevels()
+
+cohen.d(Cstock ~ plant, data=lyan.amb, hedges.correction=T) #g estimate: -1.687278 (large)
+
+lyan.elev <- C_stock %>% 
+  filter(plant == "INSP" | plant == "LYAN") %>% 
+  droplevels() %>% 
+  filter(treatment  == "elevated") %>% 
+  droplevels()
+
+cohen.d(Cstock ~ plant, data=lyan.elev, hedges.correction=T) # -1.094514 (large)
+
+#### AMDU
+amdu.amb <- C_stock %>% 
+  filter(plant == "INSP" | plant == "AMDU") %>% 
+  droplevels() %>% 
+  filter(treatment  == "ambient") %>% 
+  droplevels()
+
+cohen.d(Cstock ~ plant, data=amdu.amb)
+
+amdu.elev <- C_stock %>% 
+  filter(plant == "INSP" | plant == "AMDU") %>% 
+  droplevels() %>% 
+  filter(treatment  == "elevated") %>% 
+  droplevels()
+
+cohen.d(Cstock ~ plant, data=amdu.elev)
+
+#### PLRI
+plri.amb <- C_stock %>% 
+  filter(plant == "INSP" | plant == "PLRI") %>% 
+  droplevels() %>% 
+  filter(treatment  == "ambient") %>% 
+  droplevels()
+
+cohen.d(Cstock ~ plant, data=plri.amb)
+
+plri.elev <- C_stock %>% 
+  filter(plant == "INSP" | plant == "PLRI") %>% 
+  droplevels() %>% 
+  filter(treatment  == "elevated") %>% 
+  droplevels()
+
+cohen.d(Cstock ~ plant, data=plri.elev)
+
+
+plri.amb <- C_stock %>% 
+  filter(plant == "INSP" | plant == "PLRI") %>% 
+  droplevels() %>% 
+  filter(treatment  == "ambient") %>% 
+  droplevels()
+
+cohen.d(Cstock ~ plant, data=plri.amb)
+
+plri.elev <- C_stock %>% 
+  filter(plant == "INSP" | plant == "PLRI") %>% 
+  droplevels() %>% 
+  filter(treatment  == "elevated") %>% 
+  droplevels()
+
+cohen.d(Cstock ~ plant, data=plri.elev)
+
+```
