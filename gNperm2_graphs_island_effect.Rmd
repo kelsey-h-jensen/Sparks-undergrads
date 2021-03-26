@@ -1,0 +1,148 @@
+---
+title: "N Analysis Island Data"
+output: html_document
+---
+
+```{r, echo=FALSE}
+library(tidyverse)
+library(lme4)
+library(lmerTest)
+library(emmeans)
+
+```
+
+## R Markdown
+
+```{r import data, echo=FALSE}
+# Change this file name to reflect the file you saved our data under
+soil <- read.csv("HFN_data.csv", header=T)
+
+soil$ring <- as.factor(soil$ring)
+soil$depth <- as.factor(soil$depth)
+
+# AMDU data
+amdu <- filter(soil, plant == "INSP" | plant == "AMDU")
+```
+# AMDU Graph
+```{r plot of %N}
+means <-amdu %>% 
+  group_by(plant, treatment, depth) %>%
+  summarize(N=length(hf_gNperm2),
+            mean_N=mean(hf_gNperm2,na.rm=TRUE),
+            sd_N=sd(hf_gNperm2,na.rm=TRUE),
+            se_N=sd_N/sqrt(N))
+
+
+amdu.N1 <- ggplot(means, aes(x=mean_N, y=depth,color=plant,group=plant))+
+  geom_point(size=3, pch=18)+
+  facet_grid(.~treatment)+
+  geom_errorbar(aes(xmin=mean_N-sd_N, xmax=mean_N+sd_N), width=.1)+
+  geom_path(col="grey")+
+  scale_y_discrete(limits=rev(levels(means$depth)))+
+  scale_color_manual(values = c("#808080","#000000"))+
+  theme_bw() +
+  theme(panel.border = element_blank(),panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))+
+   labs(x="g N/ m^2 soil", y="Depth (cm)")
+amdu.N1
+```
+
+# LATR N ISLAND EFFECT
+```{r plot of %N}
+latr <- filter(soil, plant == "INSP" | plant == "LATR")
+means <-latr %>% 
+  group_by(plant, treatment, depth) %>%
+  summarize(N=length(hf_gNperm2),
+            mean_N=mean(hf_gNperm2,na.rm=TRUE),
+            sd_N=sd(hf_gNperm2,na.rm=TRUE),
+            se_N=sd_N/sqrt(N))
+
+
+latr.N1 <- ggplot(means, aes(x=mean_N, y=depth,color=plant,group=plant))+
+  geom_point(size=3, pch=18)+
+  facet_grid(.~treatment)+
+  geom_errorbar(aes(xmin=mean_N-sd_N, xmax=mean_N+sd_N), width=.1)+
+  geom_path(col="grey")+
+  scale_y_discrete(limits=rev(levels(means$depth)))+
+  scale_color_manual(values = c("#808080","#000000"))+
+  theme_bw() +
+  theme(panel.border = element_blank(),panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))+
+   labs(x="g N/ ^2 soil", y="Depth (cm)")
+latr.N1
+```
+
+#LYAN N ISLAND EFFEECT
+```{r plot of %N}
+lyan <- filter(soil, plant == "INSP" | plant == "LYAN")
+means <-lyan %>% 
+  group_by(plant, treatment, depth) %>%
+  summarize(N=length(hf_gNperm2),
+            mean_N=mean(hf_gNperm2,na.rm=TRUE),
+            sd_N=sd(hf_gNperm2,na.rm=TRUE),
+            se_N=sd_N/sqrt(N))
+
+
+lyan.N1 <- ggplot(means, aes(x=mean_N, y=depth,color=plant,group=plant))+
+  geom_point(size=3, pch=18)+
+  facet_grid(.~treatment)+
+  geom_errorbar(aes(xmin=mean_N-sd_N, xmax=mean_N+sd_N), width=.1)+
+  geom_path(col="grey")+
+  scale_y_discrete(limits=rev(levels(means$depth)))+
+  scale_color_manual(values = c("#808080","#000000"))+
+  theme_bw() +
+  theme(panel.border = element_blank(),panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))+
+   labs(x="g N/ m^2 soil", y="Depth (cm)")
+lyan.N1
+```
+
+# N concentration LYPA
+```{r plot of %N}
+lypa <- filter(soil, plant == "INSP" | plant == "LYPA")
+means <-lypa %>% 
+  group_by(plant, treatment, depth) %>%
+  summarize(N=length(hf_gNperm2),
+            mean_N=mean(hf_gNperm2,na.rm=TRUE),
+            sd_N=sd(hf_gNperm2,na.rm=TRUE),
+            se_N=sd_N/sqrt(N))
+
+
+lypa.N1 <- ggplot(means, aes(x=mean_N, y=depth,color=plant,group=plant))+
+  geom_point(size=3, pch=18)+
+  facet_grid(.~treatment)+
+  geom_errorbar(aes(xmin=mean_N-sd_N, xmax=mean_N+sd_N), width=.1)+
+  geom_path(col="grey")+
+  scale_y_discrete(limits=rev(levels(means$depth)))+
+  scale_color_manual(values = c("#808080","#000000"))+
+  theme_bw() +
+  theme(panel.border = element_blank(),panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))+
+   labs(x="mg N/ g soil", y="Depth (cm)")
+lypa.N1
+```
+
+#N concentration PLRI
+```{r plot of %N}
+plri <- filter(soil, plant == "INSP" | plant == "PLRI")
+means <-plri %>% 
+  group_by(plant, treatment, depth) %>%
+  summarize(N=length(hf_gNperm2),
+            mean_N=mean(hf_gNperm2,na.rm=TRUE),
+            sd_N=sd(hf_gNperm2,na.rm=TRUE),
+            se_N=sd_N/sqrt(N))
+
+
+plri.N1 <- ggplot(means, aes(x=mean_N, y=depth,color=plant,group=plant))+
+  geom_point(size=3, pch=18)+
+  facet_grid(.~treatment)+
+  geom_errorbar(aes(xmin=mean_N-sd_N, xmax=mean_N+sd_N), width=.1)+
+  geom_path(col="grey")+
+  scale_y_discrete(limits=rev(levels(means$depth)))+
+  scale_color_manual(values = c("#808080","#000000"))+
+  theme_bw() +
+  theme(panel.border = element_blank(),panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))+
+   labs(x="mg N/ g soil", y="Depth (cm)")
+plri.N1
+```
