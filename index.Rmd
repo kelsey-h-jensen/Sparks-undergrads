@@ -12,6 +12,40 @@ knitr::opts_chunk$set(echo = TRUE)
 **We will build our website here!**
 
 ```{r, echo=FALSE}
+library(tidyverse)
+library(lme4)
+library(lmerTest)
+library(emmeans)
+```
 
+```{r import data, echo=FALSE}
+soil <- read.csv("HFN_data.csv", header=T)
 
+soil$ring <- as.factor(soil$ring)
+soil$depth <- as.factor(soil$depth)
+
+# AMDU data
+amdu <- filter(soil, plant == "INSP" | plant == "AMDU")
+```
+
+```{r plot of %N, eval=FALSE}
+means <-amdu %>% 
+  group_by(plant, treatment, depth) %>%
+  summarize(N=length(hf_mgNgsoil),
+            mean_N=mean(hf_mgNgsoil,na.rm=TRUE),
+            sd_N=sd(hf_mgNgsoil,na.rm=TRUE),
+            se_N=sd_N/sqrt(N))
+
+bp.N <- ggplot(means, aes(x=mean_N, y=depth,color=treatment,group=treatment))+
+  geom_point(size=3, pch=18)+
+  facet_grid(.~plant)+
+  geom_errorbar(aes(xmin=mean_N-sd_N, xmax=mean_N+sd_N), width=.1)+
+  geom_path(col="grey")+
+  scale_y_discrete(limits=rev(levels(means$depth)))+
+  scale_color_manual(values = c("#808080","#000000"))+
+  theme_bw() +
+  theme(panel.border = element_blank(),panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))+
+   labs(x="mg N/ g soil", y="Depth (cm)")
+bp.N
 ```
