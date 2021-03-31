@@ -9,9 +9,9 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-**We will build our website here!**
+**grams of N per m^2**
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, warning=FALSE, message= FALSE}
 library(tidyverse)
 library(lme4)
 library(lmerTest)
@@ -28,14 +28,17 @@ soil$depth <- as.factor(soil$depth)
 amdu <- filter(soil, plant == "INSP" | plant == "AMDU")
 ```
 
-```{r plot of %N, eval=FALSE}
+```{r plot of %N, echo=FALSE}
+
 means <-amdu %>% 
   group_by(plant, treatment, depth) %>%
   summarize(N=length(hf_mgNgsoil),
             mean_N=mean(hf_mgNgsoil,na.rm=TRUE),
             sd_N=sd(hf_mgNgsoil,na.rm=TRUE),
             se_N=sd_N/sqrt(N))
+```
 
+```{r, echo=FALSE, warning=FALSE}
 bp.N <- ggplot(means, aes(x=mean_N, y=depth,color=treatment,group=treatment))+
   geom_point(size=3, pch=18)+
   facet_grid(.~plant)+
