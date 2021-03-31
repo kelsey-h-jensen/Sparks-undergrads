@@ -1,6 +1,6 @@
 ---
 title: "Mojave FACE Website"
-author: "Kelsey H Jensen"
+author: "Rafael Almanza"
 date: "3/31/2021"
 output: html_document
 ---
@@ -9,4 +9,9 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+**We will build our website here!**
 
+```{r, echo=FALSE}
+
+
+```
