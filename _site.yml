@@ -1,9 +1,18 @@
 name: "my-website"
 navbar:
-  title: "Our Collaborative Website"
+  title: "Mojave FACE Website"
   left:
-    - text: "Graphs"
-      href: index.html
-    - text: "Intro"
-      href: about.html
+    - text: "Graphs and Data"
+      href: data.html
+    - text: "Analysis"
+      href: analysis.html
+    - text: "Conclusions"
+      href: conclusions.html
 output_dir: "."
+
+output:
+  html_document:
+    theme: yeti
+    highlight: tango
+    toc: true 
+    toc_float: true 
