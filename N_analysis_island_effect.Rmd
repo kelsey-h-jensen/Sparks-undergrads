@@ -1,0 +1,290 @@
+---
+title: "N Analysis Island Data"
+output: html_document
+---
+
+```{r, echo=FALSE}
+library(tidyverse)
+library(lme4)
+library(lmerTest)
+library(emmeans)
+
+```
+
+## R Markdown
+
+```{r import data, echo=FALSE}
+# Change this file name to reflect the file you saved our data under
+soil <- read.csv("hfn_data.csv", header=T)
+
+soil$ring <- as.factor(soil$ring)
+soil$depth <- as.factor(soil$depth)
+
+# AMDU data
+amdu <- filter(soil, plant == "INSP" | plant == "AMDU")
+```
+# AMDU Graph
+```{r plot of %N}
+means <-amdu %>% 
+  group_by(plant, treatment, depth) %>%
+  summarize(N=length(hf_mgNgsoil),
+            mean_N=mean(hf_mgNgsoil,na.rm=TRUE),
+            sd_N=sd(hf_mgNgsoil,na.rm=TRUE),
+            se_N=sd_N/sqrt(N))
+
+
+amdu.N1 <- ggplot(means, aes(x=mean_N, y=depth,color=plant,group=plant))+
+  geom_point(size=3, pch=18)+
+  facet_grid(.~treatment)+
+  geom_errorbar(aes(xmin=mean_N-sd_N, xmax=mean_N+sd_N), width=.1)+
+  geom_path(col="grey")+
+  scale_y_discrete(limits=rev(levels(means$depth)))+
+  scale_color_manual(values = c("#808080","#000000"))+
+  theme_bw() +
+  theme(panel.border = element_blank(),panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))+
+   labs(x="mg N/ g soil", y="Depth (cm)")
+amdu.N1
+
+# exporting the ggplot
+
+ggsave(filename = "INSPAMDU_mgNgsoil.png", plot= amdu.N1, dpi = 300,  width = 6, height = 6, units = "in")
+```
+##AMDU Statistical Analysis for Island Effect
+```{r amdu, echo=FALSE}
+# The statistical model 
+# Change data= to correct plant type
+lmer.amdu <- lmer(hf_mgNgsoil~(treatment+plant+depth)^3+(1|ring), data=amdu)
+
+# Checking for normality assumptions
+plot(predict(lmer.amdu), residuals(lmer.amdu)) 
+qqnorm(residuals(lmer.amdu)); qqline(residuals(lmer.amdu))
+hist(residuals(lmer.amdu)) 
+
+
+sum.1 <- summary(lmer.amdu)
+sum.1
+a1 <- anova(lmer.amdu) 
+a1
+summary(a1)
+
+# p values
+estimates.amdu <- summary(emmeans(lmer.amdu, ~ treatment+plant+depth),  type="response")
+estimates.amdu
+
+paircomp.amdu <- summary(emmeans(lmer.amdu, pairwise~plant|treatment|depth)$contrasts)
+View(paircomp.amdu)
+```
+
+
+# LATR N ISLAND EFFECT
+```{r plot of %N}
+latr <- filter(soil, plant == "INSP" | plant == "LATR")
+means <-latr %>% 
+  group_by(plant, treatment, depth) %>%
+  summarize(N=length(hf_mgNgsoil),
+            mean_N=mean(hf_mgNgsoil,na.rm=TRUE),
+            sd_N=sd(hf_mgNgsoil,na.rm=TRUE),
+            se_N=sd_N/sqrt(N))
+
+
+latr.N1 <- ggplot(means, aes(x=mean_N, y=depth,color=plant,group=plant))+
+  geom_point(size=3, pch=18)+
+  facet_grid(.~treatment)+
+  geom_errorbar(aes(xmin=mean_N-sd_N, xmax=mean_N+sd_N), width=.1)+
+  geom_path(col="grey")+
+  scale_y_discrete(limits=rev(levels(means$depth)))+
+  scale_color_manual(values = c("#808080","#000000"))+
+  theme_bw() +
+  theme(panel.border = element_blank(),panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))+
+   labs(x="mg N/ g soil", y="Depth (cm)")
+latr.N1
+
+# exporting the ggplot
+ggsave(filename = "INSPLATR_mgNgsoil.png", plot= latr.N1, dpi = 300,  width = 6, height = 6, units = "in")
+```
+# LATR Statistical Analysis for Island Effect
+```{r amdu, echo=FALSE}
+# The statistical model 
+# Change data= to correct plant type
+lmer.latr <- lmer(hf_mgNgsoil~(treatment+plant+depth)^3+(1|ring), data=latr)
+
+# Checking for normality assumptions
+plot(predict(lmer.latr), residuals(lmer.latr)) 
+qqnorm(residuals(lmer.latr)); qqline(residuals(lmer.latr))
+hist(residuals(lmer.latr)) 
+
+
+sum.1 <- summary(lmer.latr)
+sum.1
+a1 <- anova(lmer.latr) 
+a1
+summary(a1)
+
+# p values
+estimates.latr <- summary(emmeans(lmer.latr, ~ treatment+plant+depth),  type="response")
+estimates.latr
+
+paircomp.latr <- summary(emmeans(lmer.latr, pairwise~plant|treatment|depth)$contrasts)
+View(paircomp.latr)
+```
+
+
+#LYAN N ISLAND EFFEECT
+```{r plot of %N}
+lyan <- filter(soil, plant == "INSP" | plant == "LYAN")
+means <-lyan %>% 
+  group_by(plant, treatment, depth) %>%
+  summarize(N=length(hf_mgNgsoil),
+            mean_N=mean(hf_mgNgsoil,na.rm=TRUE),
+            sd_N=sd(hf_mgNgsoil,na.rm=TRUE),
+            se_N=sd_N/sqrt(N))
+
+
+lyan.N1 <- ggplot(means, aes(x=mean_N, y=depth,color=plant,group=plant))+
+  geom_point(size=3, pch=18)+
+  facet_grid(.~treatment)+
+  geom_errorbar(aes(xmin=mean_N-sd_N, xmax=mean_N+sd_N), width=.1)+
+  geom_path(col="grey")+
+  scale_y_discrete(limits=rev(levels(means$depth)))+
+  scale_color_manual(values = c("#808080","#000000"))+
+  theme_bw() +
+  theme(panel.border = element_blank(),panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))+
+   labs(x="mg N/ g soil", y="Depth (cm)")
+lyan.N1
+
+# exporting the ggplot
+ggsave(filename = "INSPLYAN_mgNgsoil.png", plot= lyan.N1, dpi = 300,  width = 6, height = 6, units = "in")
+```
+#LYAN Statistical Analysis for Island Effect
+```{r amdu, echo=FALSE}
+# The statistical model 
+# Change data= to correct plant type
+lmer.lyan <- lmer(hf_mgNgsoil~(treatment+plant+depth)^3+(1|ring), data=lyan)
+
+# Checking for normality assumptions
+plot(predict(lmer.lyan), residuals(lmer.lyan)) 
+qqnorm(residuals(lmer.lyan)); qqline(residuals(lmer.lyan))
+
+
+sum.1 <- summary(lmer.lyan)
+sum.1
+a1 <- anova(lmer.lyan) 
+a1
+summary(a1)
+
+#p values
+estimates.lyan <- summary(emmeans(lmer.lyan, ~ treatment+plant+depth),  type="response")
+estimates.lyan
+
+paircomp.lyan <- summary(emmeans(lmer.lyan, pairwise~plant|treatment|depth)$contrasts)
+View(paircomp.lyan)
+```
+
+# N concentration LYPA
+```{r plot of %N}
+lypa <- filter(soil, plant == "INSP" | plant == "LYPA")
+means <-lypa %>% 
+  group_by(plant, treatment, depth) %>%
+  summarize(N=length(hf_mgNgsoil),
+            mean_N=mean(hf_mgNgsoil,na.rm=TRUE),
+            sd_N=sd(hf_mgNgsoil,na.rm=TRUE),
+            se_N=sd_N/sqrt(N))
+
+
+lypa.N1 <- ggplot(means, aes(x=mean_N, y=depth,color=plant,group=plant))+
+  geom_point(size=3, pch=18)+
+  facet_grid(.~treatment)+
+  geom_errorbar(aes(xmin=mean_N-sd_N, xmax=mean_N+sd_N), width=.1)+
+  geom_path(col="grey")+
+  scale_y_discrete(limits=rev(levels(means$depth)))+
+  scale_color_manual(values = c("#808080","#000000"))+
+  theme_bw() +
+  theme(panel.border = element_blank(),panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))+
+   labs(x="mg N/ g soil", y="Depth (cm)")
+lypa.N1
+
+# exporting the ggplot
+ggsave(filename = "INSPLYPA_mgNgsoil.png", plot= lypa.N1, dpi = 300,  width = 6, height = 6, units = "in")
+```
+#LYPA Statistical Analysis for Island Effect
+```{r lypa, echo=FALSE}
+# The statistical model 
+# Change data= to correct plant type
+lmer.lypa <- lmer(hf_mgNgsoil~(treatment+plant+depth)^3+(1|ring), data=lypa)
+
+# Checking for normality assumptions
+plot(predict(lmer.lypa), residuals(lmer.lypa)) 
+qqnorm(residuals(lmer.lypa)); qqline(residuals(lmer.lypa))
+hist(residuals(lmer.lypa)) 
+
+sum.1 <- summary(lmer.lypa)
+sum.1
+a1 <- anova(lmer.lypa) 
+a1
+summary(a1)
+
+estimates.lypa <- summary(emmeans(lmer.lypa, ~ treatment+plant+depth),  type="response")
+estimates.lypa
+
+paircomp.lypa <- summary(emmeans(lmer.lypa, pairwise~plant|treatment|depth)$contrasts)
+View(paircomp.lypa)
+
+```
+
+
+#N concentration PLRI
+```{r plot of %N}
+plri <- filter(soil, plant == "INSP" | plant == "PLRI")
+means <-plri %>% 
+  group_by(plant, treatment, depth) %>%
+  summarize(N=length(hf_mgNgsoil),
+            mean_N=mean(hf_mgNgsoil,na.rm=TRUE),
+            sd_N=sd(hf_mgNgsoil,na.rm=TRUE),
+            se_N=sd_N/sqrt(N))
+
+
+plri.N1 <- ggplot(means, aes(x=mean_N, y=depth,color=plant,group=plant))+
+  geom_point(size=3, pch=18)+
+  facet_grid(.~treatment)+
+  geom_errorbar(aes(xmin=mean_N-sd_N, xmax=mean_N+sd_N), width=.1)+
+  geom_path(col="grey")+
+  scale_y_discrete(limits=rev(levels(means$depth)))+
+  scale_color_manual(values = c("#808080","#000000"))+
+  theme_bw() +
+  theme(panel.border = element_blank(),panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))+
+   labs(x="mg N/ g soil", y="Depth (cm)")
+plri.N1
+
+# exporting the ggplot
+ggsave(filename = "INSPPLRI_mgNgsoil.png", plot= plri.N1, dpi = 300,  width = 6, height = 6, units = "in")
+```
+#PLRI Statistical Analysis for Island Effect
+```{r plri, echo=FALSE}
+# The statistical model 
+# Change data= to correct plant type
+lmer.plri <- lmer(hf_mgNgsoil~(treatment+plant+depth)^3+(1|ring), data=plri)
+
+# Checking for normality assumptions
+plot(predict(lmer.plri), residuals(lmer.plri)) 
+qqnorm(residuals(lmer.plri)); qqline(residuals(lmer.plri))
+hist(residuals(lmer.plri)) 
+
+
+sum.1 <- summary(lmer.plri)
+sum.1
+a1 <- anova(lmer.plri) 
+a1
+summary(a1)
+
+# p values
+estimates.plri <- summary(emmeans(lmer.plri, ~ treatment+plant+depth),  type="response")
+estimates.plri
+
+paircomp.plri <- summary(emmeans(lmer.plri, pairwise~plant|treatment|depth)$contrasts)
+View(paircomp.plri)
+```
