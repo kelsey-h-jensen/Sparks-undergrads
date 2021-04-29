@@ -1,0 +1,96 @@
+---
+title: "Eno_MBC"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+#install.packages("lme4")
+library(lme4)
+#install.packages("lmerTest")
+library(lmerTest)
+install.packages("emmeans")
+library(emmeans)
+```
+
+Quick vis
+```{r, echo=FALSE}
+
+MBC <- read.csv("Eno_MBC.csv", header = TRUE)
+MBC$ID <- as.factor(MBC$ID)
+MBC$ring <- as.factor(MBC$ring)
+
+ggplot(MBC, aes(x=plant, y=MBC, fill=treatment)) + geom_boxplot()
+
+# DOC plot
+ggplot(MBC, aes(x=plant, y=ugCgsoil, fill=treatment)) + geom_boxplot()
+
+# isotope plot
+ggplot(MBC, aes(x=plant, y=isoCfum, fill=treatment)) + geom_boxplot()
+
+# isoC DOC plot
+ggplot(MBC, aes(x=plant, y=isoCDOC, fill=treatment)) + geom_boxplot()
+```
+
+DOC stats
+```{r,echo=FASLSE}
+lm1 <- lmer(log(ugCgsoil)~(treatment+plant)^2 + (1|ring), data=MBC)
+
+summary(lm1)
+anova(lm1)
+
+plot(predict(lm1), residuals(lm1))
+qqnorm(residuals(lm1)); qqline(residuals(lm1))
+hist(residuals(lm1))
+
+paircomp.1 <- summary(emmeans(lm1, pairwise~treatment|plant)$contrast)
+
+```
+MBC stats
+```{r,echo=FASLSE}
+lm2 <- lmer(MBC~(treatment+plant)^2 + (1|ring), data=MBC)
+
+summary(lm2)
+anova(lm2)
+
+plot(predict(lm2), residuals(lm2))
+qqnorm(residuals(lm2)); qqline(residuals(lm2))
+hist(residuals(lm2))
+
+paircomp.2 <- summary(emmeans(lm2, pairwise~treatment|plant)$contrast)
+
+```
+
+
+Isotope stats
+```{r,echo=FASLSE}
+lm3 <- lmer(isoCfum~(treatment+plant)^2 + (1|ring), data=MBC)
+
+hist(MBC$isoCfum)
+summary(lm3)
+anova(lm3)
+
+plot(predict(lm3), residuals(lm3))
+qqnorm(residuals(lm3)); qqline(residuals(lm3))
+hist(residuals(lm3))
+
+paircomp.3 <- summary(emmeans(lm3, pairwise~treatment|plant)$contrast)
+
+```
+
+Isotope DOC stats
+```{r,echo=FASLSE}
+lm4 <- lmer(isoCDOC~(treatment+plant)^2 + (1|ring), data=MBC)
+
+hist(MBC$isoCDOC)
+summary(lm4)
+anova(lm4)
+
+plot(predict(lm4), residuals(lm4))
+qqnorm(residuals(lm4)); qqline(residuals(lm4))
+hist(residuals(lm4))
+
+paircomp.4 <- summary(emmeans(lm4, pairwise~treatment|plant)$contrast)
+
+```
