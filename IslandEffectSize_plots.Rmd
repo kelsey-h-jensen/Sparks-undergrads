@@ -189,7 +189,7 @@ ggplot(coverC.20, aes(x=treatment, y=plant)) +
 
 ```
 
-```{r, echo=FALSE}
+```{r, eval=FALSE}
 inspN.20 <- soilN %>% 
   filter(plant == "INSP") %>% 
   filter(depth == "10") %>% 
@@ -216,7 +216,5 @@ ggplot(coverN.20, aes(x=treatment, y=plant)) +
   geom_point(aes(size=effect_size), shape=21, color="black", fill="lightblue") +
   scale_size_area(max_size=15)
 # I wonder if we could stack these plots and show the smaller island inside the larger one?
-
-
 
 ```
