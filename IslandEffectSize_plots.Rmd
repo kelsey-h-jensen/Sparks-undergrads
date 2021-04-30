@@ -1,0 +1,222 @@
+---
+title: "Baloon Plots"
+author: "Kelsey H Jensen"
+date: "4/28/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+
+# Use this data for N
+soilN <- read.csv("HFN_data.csv", header=TRUE)
+soilN$depth <- as.factor(soilN$depth)
+
+
+# Use this data for C. 
+load("~/Documents/GitHub/Sparks-undergrads/desertC.RData")
+soilC <- desertC
+soilC$depth <- as.factor(soilC$depth)
+```
+
+
+In this first code chunk I am "wrangling" the data so that we can calculate an the island effect size.  
+```{r data wrangling, echo=FALSE}
+# First I take our full data set and filter it so we only have data for interspace
+inspC <- soilC %>% 
+  filter(plant == "INSP") %>% 
+  select(plant, treatment, ring, mgCgsoil) %>% 
+  group_by(treatment) %>% 
+  summarize(insp_mean=mean(mgCgsoil)) # Here I am taking a mean of the SOC concentration across depths (mgC/ g Soil)
+
+# Next I want to create a data frame of all the plant cover types paired with the INSP data
+coverC <- soilC %>% 
+  filter(plant != "INSP") %>% # The ! means "not equal to" insp
+  select(plant, treatment, ring, mgCgsoil) %>% 
+  group_by(plant, treatment) %>% 
+  summarize(mean_c=mean(na.omit(mgCgsoil))) %>% # here I'm calculating means again
+  left_join(inspC) %>% # left join command will merge our insp data frame from above to this new data frame
+  mutate(island = mean_c - insp_mean) %>% # then we can calculate an "island" number by subtracting the mean insp soc concentration from the plant soc conecentration 
+  mutate(effect_size = (island/mean_c)*100) # Finally I am creating an "effect size" by dividing the "island" value by the original concentration of plant soc which should make it a more relative term that is comparable between plant types. I multiplied by 100 just so the values are easier to see
+
+
+```
+
+Do the same thing for N. (Side note: I'm not sure these figures are going to work for N but we can think of othre ways)
+```{r, echo=TRUE}
+# First I take our full data set and filter it so we only have data for interspace
+inspN <- soilN %>% 
+  filter(plant == "INSP") %>% 
+  select(plant, treatment, ring, hf_mgNgsoil) %>% 
+  group_by(treatment) %>% 
+  summarize(insp_mean=mean(hf_mgNgsoil)) # Here I am taking a mean of the SOC concentration across depths (mgC/ g Soil)
+
+# Next I want to create a data frame of all the plant cover types paired with the INSP data
+coverN <- soilN %>% 
+  filter(plant != "INSP") %>% # The ! means "not equal to" insp
+  select(plant, treatment, ring, hf_mgNgsoil) %>% 
+  group_by(plant, treatment) %>% 
+  summarize(mean_N=mean(na.omit(hf_mgNgsoil))) %>% # here I'm calculating means again
+  left_join(inspN) %>% # left join command will merge our insp data frame from above to this new data frame
+  mutate(island = mean_N - insp_mean) %>% # then we can calculate an "island" number by subtracting the mean insp soc concentration from the plant soc conecentration 
+  mutate(effect_size = (island/mean_N)*100) # Finally I am creating an "effect size" by dividing the "island" value by the original concentration of plant soc which should make it a more relative term that is comparable between plant types. I multiplied by 100 just so the values are easier to see
+
+
+```
+
+The simplest format I can think of for these balloon plots. The balloons are scaled by the "size" term, which in the first is "island" (mg C/g soil) and in the second is "effect size" (island/plant SOC)
+```{r, echo=FALSE}
+# Carbon plots look pretty good but it's hard to tell the sizes apart
+ggplot(coverC, aes(x=treatment, y=plant, size= island)) + 
+  geom_point()
+
+ggplot(coverC, aes(x=treatment, y=plant, size= effect_size)) + 
+  geom_point()
+
+# There are most cover types where the island effect is negative (INSP > plant) which doesn't translate well
+ggplot(coverN, aes(x=treatment, y=plant, size= island)) + 
+  geom_point()
+
+ggplot(coverN, aes(x=treatment, y=plant, size= effect_size)) + 
+  geom_point()
+```
+
+If we make a few changes to this basic plot, we can improve the visuals.
+```{r, echo=FALSE}
+ggplot(coverC, aes(x=treatment, y=plant)) + 
+  geom_point(aes(size=effect_size), shape=21, color="black", fill="lightblue") + 
+  # "color" is actually the outline while "fill" is the interior color
+  scale_size_area(max_size=15) # This term ajusts the points so that the largest size is bigger
+
+```
+
+What would the plot look like if you switched the x and y axes? Which one do you think is easier to understand?
+```{r, echo=FALSE}
+ggplot(coverC, aes(x=plant, y=treatment)) + 
+  geom_point(aes(size=effect_size), shape=21, color="black", fill="lightblue") + 
+  # "color" is actually the outline while "fill" is the interior color
+  scale_size_area(max_size=15) # This term ajusts the points so that the largest size is bigger
+
+```
+
+
+Taking away some of the background noise by setting a bunch of elements to "blank"
+```{r, echo=FALSE}
+
+ggplot(coverC, aes(x=treatment, y=plant)) + 
+  geom_point(aes(size=effect_size), shape=21, color="black", fill="lightblue") +
+  scale_size_area(max_size=20, name= "Island Effect")+ # Use the name term to change the legend title
+  theme_bw() +
+  theme(panel.border = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), 
+        axis.line = element_line(colour = "black")) +
+  xlab("CO2 Treatment")+
+  ylab("Plant Species")
+
+```
+
+We can use a color gradient to change the fill color proportionally to effect_size (This is just an example, not very refined)
+```{r, echo=FALSE}
+ggplot(coverC, aes(x=treatment, y=plant, fill=effect_size)) + 
+  geom_point(aes(size=abs(effect_size)), shape=21, color="black") +
+  scale_size_area(max_size=20)
+  
+```
+
+
+Two of our cover types go from a positive Nitrogen island effect to a negative one. This actually makes visualizing the data much harder butt one way we could do it is to color the negative effects one way and the positive colors another. It is very striking to see the N islands dissapear and actually reverse under eCO2!
+```{r, echo=FALSE}
+
+coverN$color <- ifelse(coverN$effect_size <0, "negative","positive")
+
+ggplot(coverN, aes(x=treatment, y=plant, fill=color)) + 
+  geom_point(aes(size=abs(effect_size)), shape=21, color="black") +
+  scale_size_area(max_size=15) +
+  scale_fill_manual(values=c(negative="firebrick1", positive="steelblue"))
+
+ggplot(coverN, aes(x=treatment, y=plant, fill=color)) + 
+  geom_point(aes(size=abs(island)), shape=21, color="black") +
+  scale_size_area(max_size=15) +
+  scale_fill_manual(values=c(firebrick1="firebrick1", steelblue="steelblue"))
+  
+
+```
+
+
+I tried playing around with some different continuous axes and scaling the baloons by SOC. Can you think of any other ways we could look at the data by changing variables in these plots?
+```{r, echo=FALSE}
+ggplot(coverC, aes(x = treatment, y = mean_c, size = effect_size, fill=plant)) +
+    geom_point(shape = 21, colour = "black") + scale_size_area(max_size=15) 
+
+
+ggplot(coverC, aes(x = treatment, y = effect_size, size = mean_c, fill=plant)) +
+    geom_point(shape = 21, colour = "black") + scale_size_area(max_size=5)
+
+```
+
+
+Just out of curiority, I wanted to see happens if we only look at this for the top 20 cm
+```{r, echo=FALSE}
+inspC.20 <- soilC %>% 
+  filter(plant == "INSP") %>% 
+  filter(depth == "10") %>% 
+  select(plant, treatment, ring, mgCgsoil) %>% 
+  group_by(treatment) %>% 
+  summarize(insp_mean=mean(mgCgsoil)) 
+
+coverC.20 <- soilC %>% 
+  filter(plant != "INSP") %>% 
+  filter(depth == "10") %>% 
+  select(plant, treatment, ring, mgCgsoil) %>% 
+  group_by(plant, treatment) %>% 
+  summarize(mean_c=mean(na.omit(mgCgsoil))) %>% 
+  left_join(inspC.20) %>%
+  mutate(island = mean_c - insp_mean) %>% 
+  mutate(effect_size = (island/mean_c)*100)
+
+# Island effect in units of mg C/ g soil
+ggplot(coverC.20, aes(x=treatment, y=plant)) + 
+  geom_point(aes(size=island), shape=21, color="black", fill="lightblue") +
+  scale_size_area(max_size=15)
+
+ggplot(coverC.20, aes(x=treatment, y=plant)) + 
+  geom_point(aes(size=effect_size), shape=21, color="black", fill="lightblue") +
+  scale_size_area(max_size=15)
+# I wonder if we could stack these plots and show the smaller island inside the larger one?
+
+```
+
+```{r, echo=FALSE}
+inspN.20 <- soilN %>% 
+  filter(plant == "INSP") %>% 
+  filter(depth == "10") %>% 
+  select(plant, treatment, ring, hf_mgNgsoil) %>% 
+  group_by(treatment) %>% 
+  summarize(insp_mean=mean(hf_mgNgsoil)) 
+
+coverN.20 <- soilN %>% 
+  filter(plant != "INSP") %>% 
+  filter(depth == "10") %>% 
+  select(plant, treatment, ring, hf_mgNgsoil) %>% 
+  group_by(plant, treatment) %>% 
+  summarize(mean_N=mean(na.omit(mgNgsoil))) %>% 
+  left_join(inspN.20) %>%
+  mutate(island = mean_N - insp_mean) %>% 
+  mutate(effect_size = (island/mean_N)*100)
+
+# Island effect in units of mg C/ g soil
+ggplot(coverN.20, aes(x=treatment, y=plant)) + 
+  geom_point(aes(size=island), shape=21, color="black", fill="lightblue") +
+  scale_size_area(max_size=15)
+
+ggplot(coverN.20, aes(x=treatment, y=plant)) + 
+  geom_point(aes(size=effect_size), shape=21, color="black", fill="lightblue") +
+  scale_size_area(max_size=15)
+# I wonder if we could stack these plots and show the smaller island inside the larger one?
+
+
+
+```
