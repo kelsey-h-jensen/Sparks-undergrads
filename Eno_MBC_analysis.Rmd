@@ -10,27 +10,46 @@ library(tidyverse)
 library(lme4)
 #install.packages("lmerTest")
 library(lmerTest)
-install.packages("emmeans")
+# install.packages("emmeans")
 library(emmeans)
 ```
 
-Quick vis
+Data Set up
 ```{r, echo=FALSE}
 
 MBC <- read.csv("Eno_MBC.csv", header = TRUE)
 MBC$ID <- as.factor(MBC$ID)
 MBC$ring <- as.factor(MBC$ring)
 
+mbc <- MBC %>% mutate(fumC = MBC + ugCgsoil) %>% 
+  mutate(f_doc = ugCgsoil/fumC) %>% 
+  mutate(isoCmbc = (isoCfum-(isoCDOC*(ugCgsoil/fumC)))/(1-(ugCgsoil/fumC)))
+
+```
+
+
+Quick Visualization plots
+```{r, echo=FALSE}
+
+#MBC plot
 ggplot(MBC, aes(x=plant, y=MBC, fill=treatment)) + geom_boxplot()
+ggplot(MBC, aes(x=treatment, y=MBC, fill=plant)) + geom_boxplot() 
+# The difference between INSP and LATR could be an effect of how we ran the samples. INSP was run all at once, on our third try. LATR got split up between two runs, maybe the first run didn't work well? 
 
 # DOC plot
 ggplot(MBC, aes(x=plant, y=ugCgsoil, fill=treatment)) + geom_boxplot()
+ggplot(MBC, aes(x=treatment, y=ugCgsoil, fill=plant)) + geom_boxplot()
+# LATR DOC pool looks like LATR under eCO2
 
-# isotope plot
+# fum isotope plot
 ggplot(MBC, aes(x=plant, y=isoCfum, fill=treatment)) + geom_boxplot()
+
+# mbc isoC plot
+ggplot(mbc, aes(x=plant, y=isoCmbc, fill=treatment)) + geom_boxplot()
 
 # isoC DOC plot
 ggplot(MBC, aes(x=plant, y=isoCDOC, fill=treatment)) + geom_boxplot()
+# the more depleted (more negative) data could be from the -44 per mil CO2 used in fum
 ```
 
 DOC stats
@@ -46,7 +65,12 @@ hist(residuals(lm1))
 
 paircomp.1 <- summary(emmeans(lm1, pairwise~treatment|plant)$contrast)
 
+# what if we compare LATR and INP within each treatment instead? 
+paircomp.1 <- summary(emmeans(lm1, pairwise~plant|treatment)$contrast)
+# the difference between LATR and INSP disapears under eCO2
+
 ```
+
 MBC stats
 ```{r,echo=FASLSE}
 lm2 <- lmer(MBC~(treatment+plant)^2 + (1|ring), data=MBC)
@@ -92,5 +116,53 @@ qqnorm(residuals(lm4)); qqline(residuals(lm4))
 hist(residuals(lm4))
 
 paircomp.4 <- summary(emmeans(lm4, pairwise~treatment|plant)$contrast)
+
+```
+
+How to make your plots look pretty!
+```{r, echo=FALSE}
+# start with your base plot
+ggplot(MBC, aes(x=plant, y=ugCgsoil, fill=treatment)) + geom_boxplot()
+
+# You can make two side by side plots using the "facet" term
+ggplot(MBC, aes(x=treatment, y=ugCgsoil)) + geom_boxplot() +
+  facet_grid(.~plant)
+
+# You can change and remove labels 
+ggplot(MBC, aes(x=plant, y=ugCgsoil, fill=treatment)) + geom_boxplot() +
+  xlab(element_blank())+ 
+  ylab("Carbon (ug C/g soil)")
+
+ggplot(MBC, aes(x=plant, y=ugCgsoil, fill=treatment)) + geom_boxplot() +
+  xlab(element_blank())+ 
+  ylab("DOC (ug C/g soil)")+
+  # Because the "fill" term in our baseplot is treatment, we can use scale_fill to change aspects of the legend such as capitalizing or changing the title
+  scale_fill_brewer(labels = c("Ambient", "Elevated"),
+                    name = "CO2 Treatment",
+                    palette= "Dark2") # You can change the colors using preset palettes from http://applied-r.com/rcolorbrewer-palettes/. Try out a couple and see what you like!
+
+# Let's clean up the plot elements now to make it look cleaner and save it as an object, plot1
+plot1 <- ggplot(MBC, aes(x=plant, y=ugCgsoil, fill=treatment)) + geom_boxplot() +
+  xlab(element_blank())+ 
+  ylab("DOC (ug C/g soil)")+
+  scale_fill_brewer(labels = c("Ambient", "Elevated"),
+                    name= "CO2 Treatment", 
+                    palette= "Dark2") +
+  theme_bw() +  # This black and white theme will remove a lot of the background noise
+  theme(panel.border = element_blank(), # Most aspects of a plot can be removed with "element blank"
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.line = element_line(colour = "black"),
+        axis.title = element_text(size = 16), 
+        axis.text.y = element_text(size=14),
+        axis.text.x = element_text(size=14),
+        axis.ticks = element_blank())
+
+
+#Finally we can save the plot using ggsave. You might have to mess around the the size ratio to find what looks best
+ggsave(filename = "../Sparks-undergrads/figures/DOC_boxplot.png",
+       plot=plot1, dpi = 300,  width = 8, height = 6, units = "in")
+
+# check the plot after you save it to make sure everything looks right!
 
 ```
