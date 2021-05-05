@@ -1,0 +1,14 @@
+---
+title: "A. dumosa"
+author: "Rafael Almanza"
+date: "4/28/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+Many animals use it to bed and cover under (fox, sheep, kangaroo rat, tortoise). Browsing is also important. Useful for rehabilitation by increasing water filtration, trapping fine soil, organic matter.
+
+
+![The fertile crescent](larrea.jpg){#id .class width=50% height=50%}

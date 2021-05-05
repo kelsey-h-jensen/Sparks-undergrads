@@ -1,0 +1,13 @@
+---
+title: "L. tridentata"
+author: "Rafael Almanza"
+date: "4/28/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+Ambrosia is a browse species for black-tailed jackrabbits. It can be used for livestock and heavy browsing pressure in years with low precipitation
+
+![The fertile crescent](Ambrosia-dumosa.jpg){#id .class width=50% height=50%}

@@ -2,12 +2,12 @@ name: "my-website"
 navbar:
   title: "Mojave FACE Website"
   left:
-    - text: "Graphs and Data"
-      href: data.html
-    - text: "Analysis"
-      href: analysis.html
-    - text: "Conclusions"
-      href: conclusions.html
+    - text: "Title"
+      href: significance.html
+    - text: "L. tridentata"
+      href: larrea.html
+    - text: "A. dumosa"
+      href: ambrosia.html
 output_dir: "."
 
 output:
