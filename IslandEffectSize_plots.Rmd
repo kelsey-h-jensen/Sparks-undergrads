@@ -148,18 +148,39 @@ ggplot(coverN, aes(x=treatment, y=plant, fill=color)) +
 
 I tried playing around with some different continuous axes and scaling the baloons by SOC. Can you think of any other ways we could look at the data by changing variables in these plots?
 ```{r, echo=FALSE}
-ggplot(coverC, aes(x = treatment, y = mean_c, size = effect_size, fill=plant)) +
-    geom_point(shape = 21, colour = "black") + scale_size_area(max_size=15) 
+plot1 <- ggplot(coverC.20, aes(x = treatment, y = mean_c, size = effect_size, fill=plant)) +
+    geom_point(shape = 21, colour = "black", alpha=.5) + 
+  scale_size_area(max_size=15, name="Island Effect Size") +
+  theme_bw() + ylab(expression(paste(SOC~(mg~C~"*"~g~Soil^{-1}))))+
+  scale_fill_discrete(name="Cover Type")+
+  scale_x_discrete(labels = c(expression(paste("Ambient")),expression("Elevated")))+
+  xlab(element_blank())+ ylim(0,6)+
+  theme(panel.border = element_blank(), 
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.line = element_line(colour = "black"),
+        axis.title = element_text(size = 16), 
+        axis.text.y = element_text(size=14),
+        axis.text.x = element_text(size=14),
+        axis.ticks = element_blank(), 
+        legend.text = element_text(size=14),
+        legend.title = element_text(size=14))
 
-
-ggplot(coverC, aes(x = treatment, y = effect_size, size = mean_c, fill=plant)) +
-    geom_point(shape = 21, colour = "black") + scale_size_area(max_size=5)
+ggsave(filename= "../Sparks-undergrads/figures/Continuous_EffectSize_C.png",
+       dpi = 300,  width = 5, height = 6, units = "in",
+       plot= plot1)
 
 ```
 
 
 Just out of curiority, I wanted to see happens if we only look at this for the top 20 cm
 ```{r, echo=FALSE}
+cover.20 <- soilC %>% 
+  filter(depth == "10") %>% 
+  select(plant, treatment, ring, mgCgsoil) %>% 
+  group_by(plant, treatment) %>% 
+  summarize(mean_c=mean(mgCgsoil))
+
 inspC.20 <- soilC %>% 
   filter(plant == "INSP") %>% 
   filter(depth == "10") %>% 
@@ -177,44 +198,82 @@ coverC.20 <- soilC %>%
   mutate(island = mean_c - insp_mean) %>% 
   mutate(effect_size = (island/mean_c)*100)
 
-# Island effect in units of mg C/ g soil
-ggplot(coverC.20, aes(x=treatment, y=plant)) + 
-  geom_point(aes(size=island), shape=21, color="black", fill="lightblue") +
-  scale_size_area(max_size=15)
 
-ggplot(coverC.20, aes(x=treatment, y=plant)) + 
-  geom_point(aes(size=effect_size), shape=21, color="black", fill="lightblue") +
-  scale_size_area(max_size=15)
-# I wonder if we could stack these plots and show the smaller island inside the larger one?
+coverC.20$color <- ifelse(coverC.20$effect_size <0, "negative","positive")
+
+# Island effect in units of mg C/ g soil
+plot3 <- ggplot(coverC.20, aes(x=treatment, y=plant, fill= color)) + 
+  geom_point(aes(size=effect_size), shape=21, color="black") +
+  scale_size_area(max_size=15, name= "Island Effect Size")+ 
+  scale_fill_manual(values=c(negative="firebrick1", positive="steelblue"), name= "Value")+
+  scale_x_discrete(labels= c(expression(paste("Ambient")),expression("Elevated")))+
+  theme_bw() + 
+  xlab(element_blank())+
+  ylab(element_blank())+
+  theme(panel.border = element_blank(), 
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.line = element_line(colour = "black"),
+        axis.title = element_text(size = 16), 
+        axis.text.y = element_text(size=14),
+        axis.text.x = element_text(size=14),
+        axis.ticks = element_blank(), 
+        legend.text = element_text(size=14),
+        legend.title = element_text(size=14))
+
+ggsave(filename= "../Sparks-undergrads/figures/EffectSize_20cm_C.png",
+       dpi = 300,  width = 5, height = 6, units = "in",
+       plot= plot3)
 
 ```
 
 ```{r, eval=FALSE}
 inspN.20 <- soilN %>% 
   filter(plant == "INSP") %>% 
-  filter(depth == "10") %>% 
-  select(plant, treatment, ring, hf_mgNgsoil) %>% 
+  filter(depth == "20") %>% 
+  select(treatment, hf_mgNgsoil) %>% 
   group_by(treatment) %>% 
-  summarize(insp_mean=mean(hf_mgNgsoil)) 
+  summarize(insp_mean=mean(na.omit(hf_mgNgsoil)))
 
 coverN.20 <- soilN %>% 
   filter(plant != "INSP") %>% 
-  filter(depth == "10") %>% 
+  filter(depth == "20") %>% 
   select(plant, treatment, ring, hf_mgNgsoil) %>% 
   group_by(plant, treatment) %>% 
-  summarize(mean_N=mean(na.omit(mgNgsoil))) %>% 
+  summarize(mean_N=mean(na.omit(hf_mgNgsoil))) %>% 
   left_join(inspN.20) %>%
   mutate(island = mean_N - insp_mean) %>% 
   mutate(effect_size = (island/mean_N)*100)
 
-# Island effect in units of mg C/ g soil
+# Island effect in units of mg N/ g soil
 ggplot(coverN.20, aes(x=treatment, y=plant)) + 
   geom_point(aes(size=island), shape=21, color="black", fill="lightblue") +
   scale_size_area(max_size=15)
 
-ggplot(coverN.20, aes(x=treatment, y=plant)) + 
-  geom_point(aes(size=effect_size), shape=21, color="black", fill="lightblue") +
-  scale_size_area(max_size=15)
-# I wonder if we could stack these plots and show the smaller island inside the larger one?
+coverN.20$color <- ifelse(coverN.20$effect_size <0, "negative","positive")
+
+plot2 <- ggplot(coverN.20, aes(x=treatment, y=plant, fill=color)) + 
+  geom_point(aes(size=abs(effect_size)), shape=21, color="black") +
+  scale_size_area(max_size=15, name="Island Effect Size") +
+  scale_fill_manual(values=c(negative="firebrick1", positive="steelblue"), name= "Value")+
+  theme_bw() + 
+  xlab(element_blank())+
+  ylab(element_blank())+ 
+  scale_x_discrete(labels= c(expression(paste("Ambient")),expression("Elevated")))+
+  theme(panel.border = element_blank(), 
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.line = element_line(colour = "black"),
+        axis.title = element_text(size = 16), 
+        axis.text.y = element_text(size=14),
+        axis.text.x = element_text(size=14),
+        axis.ticks = element_blank(), 
+        legend.text = element_text(size=14),
+        legend.title = element_text(size=14))
+
+
+ggsave(filename= "../Sparks-undergrads/figures/EffectSize_20cm_N.png",
+       dpi = 300,  width = 5, height = 6, units = "in",
+       plot= plot2)
 
 ```
