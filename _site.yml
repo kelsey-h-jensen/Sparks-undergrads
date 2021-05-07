@@ -2,7 +2,7 @@ name: "my-website"
 navbar:
   title: "Mojave FACE Website"
   left:
-    - text: "Title"
+    - text: "Effects of eCO2"
       href: significance.html
     - text: "L. tridentata"
       href: larrea.html

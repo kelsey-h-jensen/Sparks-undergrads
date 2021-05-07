@@ -10,4 +10,4 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 Ambrosia is a browse species for black-tailed jackrabbits. It can be used for livestock and heavy browsing pressure in years with low precipitation
 
-![The fertile crescent](Ambrosia-dumosa.jpg){#id .class width=50% height=50%}
+![Ambrosia Dumosa](Ambrosia-dumosa.jpg){#id .class width=50% height=50%}
