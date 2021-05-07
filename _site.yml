@@ -2,6 +2,8 @@ name: "my-website"
 navbar:
   title: "Mojave FACE Website"
   left:
+    - text: "What re Islands of Fertility"
+      href: index.html
     - text: "Effects of eCO2"
       href: significance.html
     - text: "L. tridentata"
