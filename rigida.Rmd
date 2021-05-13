@@ -1,0 +1,14 @@
+---
+title: "Pleuraphis rigida"
+author: "Rafael Almanza"
+date: "5/13/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+P. rigida can be used as a forage plant for livestock, primarily cattle and sheep.
+
+![Pleuraphis rigida](rigida.jpg){#id .class width=50% height=50%}

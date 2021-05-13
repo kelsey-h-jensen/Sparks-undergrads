@@ -1,0 +1,12 @@
+---
+title: "Nitrogen Effect Size"
+author: "Rafael Almanza"
+date: "5/9/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+![Nitrogen](EffectSize_20cm_N.png){#id .class width=50% height=50%}

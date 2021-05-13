@@ -1,0 +1,13 @@
+---
+title: "L. pallidum"
+author: "Rafael Almanza"
+date: "5/10/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+L. pallidum's fruits are consumed by birds, rodents and humans. It also serves as cover for birds and small mammals
+
+![Lysium pallidum](pallidum.jpg){#id .class width=50% height=50%}

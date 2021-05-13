@@ -1,0 +1,13 @@
+---
+title: "L. andersonii"
+author: "Rafael Almanza"
+date: "5/13/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+L. andersonii's berries are eaten by birds, mammals and livestock. The plant provides good cover for animals
+
+![Lysium andersonii](andersonii.jpg){#id .class width=50% height=50%}

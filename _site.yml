@@ -1,20 +1,31 @@
 name: "my-website"
+output_dir: '.'
 navbar:
-  title: "Mojave FACE Website"
-  left:
-    - text: "What are Islands of Fertility"
-      href: index.html
-    - text: "Effects of eCO2"
-      href: significance.html
-    - text: "L. tridentata"
-      href: larrea.html
-    - text: "A. dumosa"
-      href: ambrosia.html
-output_dir: "."
-
+  title: Home
+  right:
+  - text: Cover Types
+    menu:
+    - text: L. tridentata
+      href: tridentata.html
+    - text: A. dumosa
+      href: dumosa.html
+    - text: L. pallidum
+      href: pallidum.html
+    - text: L. andersonii
+      href: andersonii.html
+    - text: P. rigida
+      href: rigida.html
+  - text: Plots
+    menu:
+    - text: Carbon Effect Size
+      href: c-effect-size.html
+    - text: Nitrogen Effect Size
+      href: n-effect-size.html
+    - text: Continuous Effect Size
+      href: cont-effect.html
 output:
   html_document:
-    theme: yeti
-    highlight: tango
+    theme: cosmo
+    highlight: textmate
     toc: true 
     toc_float: true 

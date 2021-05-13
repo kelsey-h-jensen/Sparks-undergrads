@@ -1,18 +1,13 @@
 ---
-title: "What Are Islands of Fertility?"
-author: "Rafael Almanza"
-date: "4/8/2021"
+title: "Island Effect in the Mojave"
 output: html_document
 ---
+![](mojave1.jpg){#id .class width=85% border=10px}
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-- __What are islands of fertility?:__ Areas with high levels of nutrients and organic matter that form under canapy trees and shrubs in arid ecosystems.
+- __What are islands of fertility?:__ Areas with high levels of nutrients and organic matter that form under canopy trees and shrubs in arid ecosystems.
 - __Significance to the ecosystem:__ Islands help promote the persistence of shrubs in the community. Islands make plants resistant to environmental perturbations
 - __How do are they formed?:__ Island formation can result from deposition of plant litter under canopies, soil erosion, rainsplash, nutrient “mining” from interspace soils, symbiotic nitrogen-fixing bacteria, and funneling nutrient-rich stemflow waters
 
 Pictured below is an example of the dispersed vegtation patches that is characteristic of desert ecosystems.
 
-![The fertile crescent](islands_of_fertility.jpg){#id .class width=50% height=50%}
+![The fertile crescent](islands_of_fertility.jpg){#id .class width=25% height=25 %}
