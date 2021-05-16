@@ -99,7 +99,7 @@ bp.N <- ggplot(means, aes(x=mean_N, y=depth,color=treatment,group=treatment))+
 bp.N
 
 # exporting the ggplot
-ggsave(filename = "INSPAMDU_mgNgsoil.png", plot= bp.N1, dpi = 300,  width = 6, height = 6, units = "in")
+ggsave(filename = "INSPLATR_mgNgsoil.png", plot= bp.N1, dpi = 300,  width = 6, height = 6, units = "in")
 ```
 #LATR Statistical Analysis for CO2 Effect
 ```{r latr, echo=FALSE}

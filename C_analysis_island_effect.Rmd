@@ -47,7 +47,7 @@ amdu.C1 <- ggplot(means, aes(x=mean_C, y=depth,color=plant,group=plant))+
 amdu.C1
 
 #ggplot
-ggsave(filename = "INSPLATR_mgCgsoil.png", plot= amdu.C1, dpi = 300,  width = 6, height = 6, units = "in")
+ggsave(filename = "INSPAMDU_mgCgsoil.png", plot= amdu.C1, dpi = 300,  width = 6, height = 6, units = "in")
 ```
 #AMDU Statistical Analysis of Island Effect
 ```{r amdu, echo=FALSE}
@@ -154,7 +154,7 @@ lyan.C1
 # Make sure to adjust the name of the plot to sometthing recognizable. 
 # Change the plot you are saving by changing the "plot=" part
 # Adjust the size and resolution of the imagee by changing the width and height, in inches
-ggsave(filename = "INSPLATR_mgCgsoil.png", plot= lyan.C1, dpi = 300,  width = 6, height = 6, units = "in")
+ggsave(filename = "INSPLYAN_mgCgsoil.png", plot= lyan.C1, dpi = 300,  width = 6, height = 6, units = "in")
 ```
 #LYAN Statistical Ananlysis of Island Effect
 ```{r LYAN, echo=FALSE}
@@ -207,7 +207,7 @@ lypa.C1 <- ggplot(means, aes(x=mean_C, y=depth,color=plant,group=plant))+
 lypa.C1
 
 # exporting the ggplot
-ggsave(filename = "INSPLATR_mgCgsoil.png", plot= lypa.C1, dpi = 300,  width = 6, height = 6, units = "in")
+ggsave(filename = "INSPLYPA_mgCgsoil.png", plot= lypa.C1, dpi = 300,  width = 6, height = 6, units = "in")
 ```
 
 #LYPA Statistical Analysis of Island Effect
@@ -259,7 +259,7 @@ plri.C1 <- ggplot(means, aes(x=mean_C, y=depth,color=plant,group=plant))+
 plri.C1
 
 # exporting the ggplot
-ggsave(filename = "INSPLATR_mgCgsoil.png", plot= plri.C1, dpi = 300,  width = 6, height = 6, units = "in")
+ggsave(filename = "INSPPLRI_mgCgsoil.png", plot= plri.C1, dpi = 300,  width = 6, height = 6, units = "in")
 ```
 
 #PLRI Statistical Analysis of Island Effect

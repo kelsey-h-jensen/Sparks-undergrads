@@ -12,3 +12,6 @@ Many animals use it to bed and cover under (fox, sheep, kangaroo rat, tortoise).
 
 
 ![Larrea Tridentata](larrea.jpg){#id .class width=50% height=50%}
+
+![This graph shows the island effect on carbon under cover type Larrea Tridentata](INSPLATR_mgCgsoil.png){#id .class width=50% height=50%}
+![This graph shows the island effect on nitrogen under cover type Larrea Tridentata](INSPLATR_mgNgsoil.png){#id .class width=50% height=50%}

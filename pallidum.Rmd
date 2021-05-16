@@ -1,7 +1,5 @@
 ---
-title: "L. pallidum"
-author: "Rafael Almanza"
-date: "5/10/2021"
+title: "Lysium pallidum"
 output: html_document
 ---
 
@@ -11,3 +9,9 @@ knitr::opts_chunk$set(echo = TRUE)
 L. pallidum's fruits are consumed by birds, rodents and humans. It also serves as cover for birds and small mammals
 
 ![Lysium pallidum](pallidum.jpg){#id .class width=50% height=50%}
+
+
+
+![This graph shows the island effect on carbon under cover type L. pallidum. ](INSPLYPA_mgCgsoil.png){#id .class width=50% height=50%}
+
+![This graph shows the island effect on nitrogen under cover type Lysium pallidum](INSPLYPA_mgNgsoil.png){#id .class width=50% height=50%}

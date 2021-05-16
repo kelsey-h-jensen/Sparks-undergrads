@@ -10,4 +10,4 @@ output: html_document
 
 Pictured below is an example of the dispersed vegtation patches that is characteristic of desert ecosystems.
 
-![The fertile crescent](islands_of_fertility.jpg){#id .class width=25% height=25 %}
+![The fertile crescent, pictured above, demonstrates the dispersed vegtation patches that are characteristic of desert ecosystems.](islands_of_fertility.jpg){#id .class width=25% height=25%}
