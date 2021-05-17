@@ -1,5 +1,7 @@
 ---
 title: "Continuous Effect Size"
+author: "Rafael Almanza"
+date: "5/10/2021"
 output: html_document
 ---
 
