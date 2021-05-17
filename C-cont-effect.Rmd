@@ -8,4 +8,4 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-![This graph demonstrates the change in island effect size relative to each cover type under elevated and ambient carbon dioxide effects](Continuous_EffectSize_C.png){#id .class width=50% height=50%}
+![This graph demonstrates the change in island effect size relative to each cover type under elevated and ambient carbon dioxide effects](Continuous_EffectSize_C.png){#id .class width=75% height=75%}

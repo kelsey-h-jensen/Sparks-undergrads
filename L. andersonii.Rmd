@@ -8,7 +8,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 L. andersonii's berries are eaten by birds, mammals and livestock. The plant provides good cover for animals
 
-![Lysium andersonii](andersonii.jpg){#id .class width=50% height=50%}
+![Lysium andersonii](andersonii.jpg){#id .class width=51% height=51%}
 
 ![This graph shows the island effect on carbon under cover type Lysium andersonii](INSPLYAN_mgCgsoil.png){#id .class width=50% height=50%}
 

@@ -9,4 +9,4 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-![This graph demonstrates island effect size of nitrogen under ambient and elevated carbon dioxide.](EffectSize_20cm_N.png){#id .class width=50% height=50%}
+![This graph demonstrates island effect size of nitrogen under ambient and elevated carbon dioxide.](EffectSize_20cm_N.png){#id .class width=75% height=75%}

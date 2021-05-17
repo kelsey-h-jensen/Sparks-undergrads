@@ -9,7 +9,7 @@ output: html_document
 - __How do are they formed?:__ Island formation can result from deposition of plant litter under canopies, soil erosion, rainsplash, nutrient “mining” from interspace soils, symbiotic nitrogen-fixing bacteria, and funneling nutrient-rich stemflow waters
 - __How do islands of fertility impact the carbon cycle?:__ Islands of fertility allow for carbon storage in desert ecosystems. Deserts are therefore able to act as carbon sinks thanks to these shrub species.  
 
-![The fertile crescent, pictured above, demonstrates the dispersed vegtation patches that are characteristic of desert ecosystems.](islands_of_fertility.jpg){#id .class width=50% height=50%}
+![The fertile crescent, pictured above, demonstrates the dispersed vegtation patches that are characteristic of desert ecosystems.](islands_of_fertility.jpg){#id .class width=51% height=51%}
 
 - __How will elevated carbon dioxide effect islands of fertility?:__ Initially, we would expect elevated carbon dioxide to increase the island effect, however, there are many factors that interfere with the positive fertilization effects of carbon dioxide.
 - __What may be causing the loss in soil carbon and decreased island effect?:__ Desert ecosystems are limited by soil nitrogen. Losses in soil nitrogen under islands of fertility may result in plants being unable to benefit from the increased soil carbon. Other effects include soil moisture. The increased heat due to elevated carbon dioxide and other GCGs will result dryer conditions. 
