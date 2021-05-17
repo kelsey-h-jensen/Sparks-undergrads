@@ -1,7 +1,5 @@
 ---
-title: "A. dumosa"
-author: "Rafael Almanza"
-date: "4/28/2021"
+title: "Ambrosia dumosa"
 output: html_document
 ---
 

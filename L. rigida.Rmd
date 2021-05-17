@@ -1,7 +1,5 @@
 ---
 title: "Pleuraphis rigida"
-author: "Rafael Almanza"
-date: "5/13/2021"
 output: html_document
 ---
 

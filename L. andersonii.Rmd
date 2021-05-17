@@ -1,7 +1,5 @@
 ---
-title: "L. andersonii"
-author: "Rafael Almanza"
-date: "5/13/2021"
+title: "Lysium andersonii"
 output: html_document
 ---
 

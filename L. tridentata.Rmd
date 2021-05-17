@@ -1,7 +1,5 @@
 ---
-title: "L. tridentata"
-author: "Rafael Almanza"
-date: "4/28/2021"
+title: "Larrea tridentata"
 output: html_document
 ---
 
