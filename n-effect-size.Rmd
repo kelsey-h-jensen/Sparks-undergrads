@@ -1,7 +1,5 @@
 ---
 title: "Nitrogen Effect Size"
-author: "Rafael Almanza"
-date: "5/9/2021"
 output: html_document
 ---
 
