@@ -1,0 +1,32 @@
+name: "my-website"
+output_dir: '.'
+navbar:
+  right:
+  - text: Home
+    href: index.Rmd
+  - text: Cover Types
+    menu:
+    - text: L. tridentata
+      href: tridentata.html
+    - text: A. dumosa
+      href: dumosa.html
+    - text: L. pallidum
+      href: pallidum.html
+    - text: L. andersonii
+      href: andersonii.html
+    - text: P. rigida
+      href: rigida.html
+  - text: Plots
+    menu:
+    - text: Carbon Effect Size
+      href: c-effect-size.html
+    - text: Nitrogen Effect Size
+      href: n-effect-size.html
+    - text: Continuous Effect Size SOC
+      href: cont-effect.html
+output:
+  html_document:
+    theme: cosmo
+    highlight: textmate
+    toc: true 
+    toc_float: true 
