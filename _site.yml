@@ -3,19 +3,19 @@ output_dir: '.'
 navbar:
   right:
   - text: Home
-    href: index.Rmd
+    href: index.html
   - text: Cover Types
     menu:
     - text: L. tridentata
-      href: L. tridentata.Rmd
+      href: L.-tridentata.html
     - text: A. dumosa
-      href: dumosa.Rmd
+      href: A.-dumosa.html
     - text: L. pallidum
-      href: pallidum.Rmd
+      href: L.-pallidum.html
     - text: L. andersonii
-      href: andersonii.Rmd
+      href: L.-andersonii.html
     - text: P. rigida
-      href: rigida.Rmd
+      href: P.--rigida.html
   - text: Plots
     menu:
     - text: Carbon Effect Size
