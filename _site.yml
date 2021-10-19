@@ -7,23 +7,23 @@ navbar:
   - text: Cover Types
     menu:
     - text: L. tridentata
-      href: tridentata.html
+      href: tridentata.Rmd
     - text: A. dumosa
-      href: dumosa.html
+      href: dumosa.Rmd
     - text: L. pallidum
-      href: pallidum.html
+      href: pallidum.Rmd
     - text: L. andersonii
-      href: andersonii.html
+      href: andersonii.Rmd
     - text: P. rigida
-      href: rigida.html
+      href: rigida.Rmd
   - text: Plots
     menu:
     - text: Carbon Effect Size
-      href: c-effect-size.html
+      href: c-effect-size.Rmd
     - text: Nitrogen Effect Size
-      href: n-effect-size.html
+      href: n-effect-size.Rmd
     - text: Continuous Effect Size SOC
-      href: cont-effect.html
+      href: cont-effect.Rmd
 output:
   html_document:
     theme: cosmo
