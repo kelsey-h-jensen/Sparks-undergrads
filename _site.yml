@@ -2,7 +2,7 @@ name: "my-website"
 output_dir: '.'
 navbar:
   right:
-  - text: Home
+  - text: Home 
     href: index.html
   - text: Cover Types
     menu:

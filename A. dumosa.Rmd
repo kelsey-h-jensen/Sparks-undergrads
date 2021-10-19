@@ -10,7 +10,7 @@ Ambrosia is a browse species for black-tailed jackrabbits. It can be used for li
 
 ![Ambrosia Dumosa](Ambrosia-dumosa.jpg){#id .class width=51% height=51%}
 
-![This graph shows the island effect on carbon under the cover type Ambrosia Dumosa](INSPAMDU_mgCgsoil.png){#id .class width=50% height=50%}
+![This graph shows the island effect on carbon under cover type Ambrosia Dumosa](INSPAMDU_mgCgsoil.png){#id .class width=50% height=50%}
 
 ![This graph shows the island effect on nitrogen under cover type Ambrosia Dumosa](INSPAMDU_mgNgsoil.png){#id .class width=50% height=50%}
 

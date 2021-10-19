@@ -1,5 +1,5 @@
 ---
-title: "Island Effect in the Mojave Desert"
+title: "Island Effect in the Mojave"
 output: html_document
 ---
 ![](mojave1.jpg){#id .class width=85% border=10px}
