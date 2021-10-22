@@ -11,5 +11,5 @@ P. rigida can be used as a forage plant for livestock, primarily cattle and shee
 
 ![Pleuraphis rigida](rigida.jpg){#id .class width=51% height=51%}
 
-![This graph shows the island effect on carbon under cover type Pleuraphis rigida](INSPPLRI_mgCgsoil.png){#id .class width=50% height=50%}
+![This graph shows the island effect on carbon under the cover type Pleuraphis rigida](INSPPLRI_mgCgsoil.png){#id .class width=50% height=50%}
 ![This graph shows the island effect on nitrogen under cover type Pleuraphis rigida](INSPPLRI_mgNgsoil.png){#id .class width=50% height=50%}
