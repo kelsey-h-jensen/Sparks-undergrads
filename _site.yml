@@ -7,7 +7,7 @@ navbar:
   - text: Cover Types
     menu:
     - text: L. tridentata
-      href: L.-tridentata.html
+      href: L_tridentata.html
     - text: A. dumosa
       href: A.-dumosa.html
     - text: L. pallidum
