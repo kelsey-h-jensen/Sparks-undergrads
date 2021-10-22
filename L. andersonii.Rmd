@@ -12,4 +12,4 @@ L. andersonii's berries are eaten by birds, mammals and livestock. The plant pro
 
 ![This graph shows the island effect on carbon under cover type Lysium andersonii](INSPLYAN_mgCgsoil.png){#id .class width=50% height=50%}
 
-![This graph shows the island effect on nitrogen under cover type Lysium andersonii](INSPLYAN_mgNgsoil.png){#id .class width=50% height=50%}
+![This graph shows the island effect on nitrogen under the cover type Lysium andersonii](INSPLYAN_mgNgsoil.png){#id .class width=50% height=50%}
