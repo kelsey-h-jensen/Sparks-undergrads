@@ -2,7 +2,7 @@ name: "my-website"
 output_dir: '.'
 navbar:
   right:
-  - text: Home 
+  - text: Home
     href: index.html
   - text: Cover Types
     menu:
@@ -15,7 +15,7 @@ navbar:
     - text: L. andersonii
       href: L.-andersonii.html
     - text: P. rigida
-      href: P.--rigida.html
+      href: P.-rigida.html
   - text: Plots
     menu:
     - text: Carbon Effect Size
