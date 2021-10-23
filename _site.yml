@@ -6,15 +6,15 @@ navbar:
     href: index.html
   - text: Cover Types
     menu:
-    - text: L. tridentata
+    - text: L.tridentata
       href: L_tridentata.html
-    - text: A. dumosa
+    - text: A.dumosa
       href: A.-dumosa.html
-    - text: L. pallidum
+    - text: L.pallidum
       href: L.-pallidum.html
-    - text: L. andersonii
+    - text: L.andersonii
       href: L.-andersonii.html
-    - text: P. rigida
+    - text: P.rigida
       href: P.-rigida.html
   - text: Plots
     menu:
