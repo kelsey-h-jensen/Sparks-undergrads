@@ -1,0 +1,10 @@
+---
+title: "Nitrogen Effect Size"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+![This graph demonstrates island effect size of nitrogen under ambient and elevated carbon dioxide.](EffectSize_20cm_N.png){#id .class width=75% height=75%}
