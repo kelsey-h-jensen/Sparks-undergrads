@@ -19,11 +19,11 @@ navbar:
   - text: Plots
     menu:
     - text: Carbon Effect Size
-      href: c-effect-size.html
+      href: Carbon-effect-size.html
     - text: Nitrogen Effect Size
-      href: n-effect-size.html
+      href: Nitrogen-effect-size.html
     - text: Continuous Effect Size SOC
-      href: C-cont-effect.html
+      href: Carbon-cont-effect.html
 output:
   html_document:
     theme: cosmo
