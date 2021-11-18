@@ -13,3 +13,5 @@ output: html_document
 
 - __How will elevated carbon dioxide effect islands of fertility?:__ Initially, we would expect elevated carbon dioxide to increase the island effect, however, there are many factors that interfere with the positive fertilization effects of carbon dioxide.
 - __What may be causing the loss in soil carbon and decreased island effect?:__ Desert ecosystems are limited by soil nitrogen. Losses in soil nitrogen under islands of fertility may result in plants being unable to benefit from the increased soil carbon. Other effects include soil moisture. The increased heat due to elevated carbon dioxide and other GCGs will result dryer conditions. 
+
+TEST EDIT
